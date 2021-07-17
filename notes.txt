@@ -1,0 +1,8 @@
+curl -X POST -H "Content-Type: application/json" -d '[{"firstName": "Leo", "lastName": "Gtz", "age": 29}]' http://localhost:8080
+http :8080/Leo
+http :8080/id/mYxZmHoBuw25WAl43PM7
+http :8080/
+
+# To check the indices:
+http :9200/_cat/indices/leotechie
+
