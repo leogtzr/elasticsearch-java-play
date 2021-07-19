@@ -1,5 +1,0 @@
-com/elastic/service/CustomerService.class
-com/elastic/repository/CustomerRepository.class
-com/elastic/model/Customer.class
-com/elastic/ElasticsearchQueryDemoApplication.class
-com/elastic/controller/CustomerController.class
