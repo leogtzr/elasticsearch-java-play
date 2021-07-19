@@ -6,6 +6,7 @@ import com.elastic.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,18 +62,17 @@ public class CustomerController {
         return customers.size();
     }
 
-    @GetMapping("/view")
-    public ResponseEntity<Void> debugShit() {
-        this.customerService.dummySearchByFirstName();
-
-        return ResponseEntity.ok().build();
+    @GetMapping("/view/{name}")
+    public ResponseEntity<SearchHit<Customer>> byFirstName(final @PathVariable String name) {
+        final Optional<SearchHit<Customer>> customerSearchHit = this.customerService.dummySearchByFirstName(name);
+        return ResponseEntity.ok(customerSearchHit.get());
     }
 
-    @GetMapping("/view2")
-    public ResponseEntity<Void> debugShitAge() {
-        this.customerService.dummySearchByFirstName2();
+    @GetMapping("/view2/{name}")
+    public ResponseEntity<SearchHit<Customer>> byFirstName2(final @PathVariable String name) {
+        final Optional<SearchHit<Customer>> customerSearchHit = this.customerService.dummySearchByFirstName2(name);
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(customerSearchHit.get());
     }
 
 }

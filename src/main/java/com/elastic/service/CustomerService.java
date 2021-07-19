@@ -8,12 +8,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.data.elasticsearch.core.query.StringQuery;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -26,42 +29,42 @@ public class CustomerService {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
-    public void dummySearchByFirstName() {
-        final QueryBuilder queryBuilder = QueryBuilders.matchQuery("firstName", "Leonardo");
+    public Optional<SearchHit<Customer>> dummySearchByFirstName(final String name) {
+        final QueryBuilder queryBuilder = QueryBuilders.matchQuery("firstName", name);
 
-        final Query searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(queryBuilder)
-                .build();
+        final Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
         final SearchHits<Customer> customerHits =
                 elasticsearchOperations.search(searchQuery, Customer.class, IndexCoordinates.of(indexName));
         LOG.info(customerHits.toString());
 
-        customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> LOG.info(customer.toString()));
+        return customerHits.stream().findAny();
+        // customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> LOG.info(customer.toString()));
     }
 
-    public void dummySearchByFirstName2() {
+    public Optional<SearchHit<Customer>> dummySearchByFirstName2(final String name) {
         final String query = """
             {
               "match": {
                 "firstName": {
-                  "query": "Leonardo"
+                  "query": "%s"
                 }
               }
             }
         """;
-        final Query searchQuery = new StringQuery(query);
+        final Query searchQuery = new StringQuery(String.format(query, name));
 
         final SearchHits<Customer> customerHits = elasticsearchOperations.search(
                 searchQuery,
                 Customer.class,
                 IndexCoordinates.of(indexName));
 
-        customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> {
-            LOG.debug("...");
-            LOG.info(String.format("customer -> '%s'", customer));
-            LOG.debug(".../>");
-        });
+//        customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> {
+//            LOG.debug("...");
+//            LOG.info(String.format("customer -> '%s'", customer));
+//            LOG.debug(".../>");
+//        });
+        return customerHits.stream().findAny();
     }
 
 }
