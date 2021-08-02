@@ -24,7 +24,9 @@ public class AccountService {
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
 
-    @Value("${indexName}")
+    private Logger logger = LoggerFactory.getLogger(AccountService.class);
+
+    @Value("${indexAccount}")
     private String indexName;
 
     private static final Logger LOG = LoggerFactory.getLogger(AccountService.class);
@@ -44,15 +46,15 @@ public class AccountService {
 
     public Optional<SearchHit<Account>> dummySearchByFirstName2(final String name) {
         final String query = """
-            {
-              "match": {
-                "firstName": {
-                  "query": "%s",
-                }
-              }
-            }
-        """;
-        final Query searchQuery = new StringQuery(String.format(query, name));
+                    {
+                      "match": {
+                        "firstname": "%s"
+                      }
+                    }
+                """;
+
+        final String re = String.format(query, name);
+        final Query searchQuery = new StringQuery(re);
 
         final SearchHits<Account> accountsHits = elasticsearchOperations.search(
                 searchQuery,

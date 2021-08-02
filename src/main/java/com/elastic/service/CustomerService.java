@@ -47,7 +47,7 @@ public class CustomerService {
             {
               "match": {
                 "firstName": {
-                  "query": "%s",
+                  "query": "%s"
                 }
               }
             }
