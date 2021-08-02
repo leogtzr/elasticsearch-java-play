@@ -1,6 +1,6 @@
 package com.elastic.service;
 
-import com.elastic.model.Customer;
+import com.elastic.model.Account;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CustomerService {
+public class AccountService {
 
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
@@ -27,22 +27,22 @@ public class CustomerService {
     @Value("${indexName}")
     private String indexName;
 
-    private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AccountService.class);
 
-    public Optional<SearchHit<Customer>> dummySearchByFirstName(final String name) {
+    public Optional<SearchHit<Account>> dummySearchByFirstName(final String name) {
         final QueryBuilder queryBuilder = QueryBuilders.matchQuery("firstName", name);
 
         final Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
-        final SearchHits<Customer> customerHits =
-                elasticsearchOperations.search(searchQuery, Customer.class, IndexCoordinates.of(indexName));
-        LOG.info(customerHits.toString());
+        final SearchHits<Account> accountsHits =
+                elasticsearchOperations.search(searchQuery, Account.class, IndexCoordinates.of(indexName));
+        LOG.info(accountsHits.toString());
 
-        return customerHits.stream().findAny();
-        // customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> LOG.info(customer.toString()));
+        return accountsHits.stream().findAny();
+        // accountsHits.stream().map(hit -> hit.getContent()).forEach(account -> LOG.info(account.toString()));
     }
 
-    public Optional<SearchHit<Customer>> dummySearchByFirstName2(final String name) {
+    public Optional<SearchHit<Account>> dummySearchByFirstName2(final String name) {
         final String query = """
             {
               "match": {
@@ -54,17 +54,17 @@ public class CustomerService {
         """;
         final Query searchQuery = new StringQuery(String.format(query, name));
 
-        final SearchHits<Customer> customerHits = elasticsearchOperations.search(
+        final SearchHits<Account> accountsHits = elasticsearchOperations.search(
                 searchQuery,
-                Customer.class,
+                Account.class,
                 IndexCoordinates.of(indexName));
 
-//        customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> {
+//        accountsHits.stream().map(hit -> hit.getContent()).forEach(account -> {
 //            LOG.debug("...");
-//            LOG.info(String.format("customer -> '%s'", customer));
+//            LOG.info(String.format("account -> '%s'", account));
 //            LOG.debug(".../>");
 //        });
-        return customerHits.stream().findAny();
+        return accountsHits.stream().findAny();
     }
 
 }
