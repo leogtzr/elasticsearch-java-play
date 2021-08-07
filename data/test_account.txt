@@ -1,0 +1,11 @@
+{
+  "account_number": 1,
+  "balance": 123456,
+  "firstname": "LeonidasX",
+  "lastname": "Gtz",
+  "age": 30,
+  "address": "Nueva Etica 44133",
+  "employer": "Az",
+  "email": "leogtzr@leogtzr.com",
+  "city": "Chihuahua"
+}
