@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 public class AccountController {
 
-    private Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    private Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -64,7 +64,7 @@ public class AccountController {
 
     @GetMapping("/view/{name}")
     public ResponseEntity<SearchHit<Account>> byFirstName(final @PathVariable String name) {
-        final Optional<SearchHit<Account>> customerSearchHit = this.accountService.dummySearchByFirstName(name);
+        final Optional<SearchHit<Account>> customerSearchHit = this.accountService.searchByFirstName(name);
         if (customerSearchHit.isPresent()) {
             return ResponseEntity.ok(customerSearchHit.get());
         }
@@ -74,7 +74,7 @@ public class AccountController {
 
     @GetMapping("/view2/{name}")
     public ResponseEntity<SearchHit<Account>> byFirstName2(final @PathVariable String name) {
-        final Optional<SearchHit<Account>> customerSearchHit = this.accountService.dummySearchByFirstName2(name);
+        final Optional<SearchHit<Account>> customerSearchHit = this.accountService.searchByFirstName2(name);
         if (customerSearchHit.isPresent()) {
             return ResponseEntity.ok(customerSearchHit.get());
         }

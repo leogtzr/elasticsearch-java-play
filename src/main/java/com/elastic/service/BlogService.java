@@ -1,6 +1,6 @@
 package com.elastic.service;
 
-import com.elastic.model.Account;
+import com.elastic.model.website.Blog;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
@@ -19,46 +19,46 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class AccountService {
+public class BlogService {
 
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
 
-    private Logger logger = LoggerFactory.getLogger(AccountService.class);
+    private Logger logger = LoggerFactory.getLogger(BlogService.class);
 
     @Value("${indexAccount}")
     private String indexName;
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccountService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BlogService.class);
 
-    public Optional<SearchHit<Account>> searchByFirstName(final String name) {
-        final QueryBuilder queryBuilder = QueryBuilders.matchQuery("firstName", name);
+    public Optional<SearchHit<Blog>> searchByTitle(final String title) {
+        final QueryBuilder queryBuilder = QueryBuilders.matchQuery("title", title);
 
         final Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
 
-        final SearchHits<Account> accountsHits =
-                elasticsearchOperations.search(searchQuery, Account.class, IndexCoordinates.of(indexName));
+        final SearchHits<Blog> accountsHits =
+                elasticsearchOperations.search(searchQuery, Blog.class, IndexCoordinates.of(indexName));
         LOG.info(accountsHits.toString());
 
         return accountsHits.stream().findAny();
         // accountsHits.stream().map(hit -> hit.getContent()).forEach(account -> LOG.info(account.toString()));
     }
 
-    public Optional<SearchHit<Account>> searchByFirstName2(final String name) {
+    public Optional<SearchHit<Blog>> searchByTitle2(final String title) {
         final String query = """
                     {
                       "match": {
-                        "firstname": "%s"
+                        "title": "%s"
                       }
                     }
                 """;
 
-        final String re = String.format(query, name);
+        final String re = String.format(query, title);
         final Query searchQuery = new StringQuery(re);
 
-        final SearchHits<Account> accountsHits = elasticsearchOperations.search(
+        final SearchHits<Blog> accountsHits = elasticsearchOperations.search(
                 searchQuery,
-                Account.class,
+                Blog.class,
                 IndexCoordinates.of(indexName));
 
 //        accountsHits.stream().map(hit -> hit.getContent()).forEach(account -> {

@@ -64,7 +64,7 @@ public class CustomerController {
 
     @GetMapping("/view/{name}")
     public ResponseEntity<SearchHit<Customer>> byFirstName(final @PathVariable String name) {
-        final Optional<SearchHit<Customer>> customerSearchHit = this.customerService.dummySearchByFirstName(name);
+        final Optional<SearchHit<Customer>> customerSearchHit = this.customerService.searchByFirstName(name);
         if (customerSearchHit.isPresent()) {
             return ResponseEntity.ok(customerSearchHit.get());
         }
@@ -74,7 +74,7 @@ public class CustomerController {
 
     @GetMapping("/view2/{name}")
     public ResponseEntity<SearchHit<Customer>> byFirstName2(final @PathVariable String name) {
-        final Optional<SearchHit<Customer>> customerSearchHit = this.customerService.dummySearchByFirstName2(name);
+        final Optional<SearchHit<Customer>> customerSearchHit = this.customerService.searchByFirstName2(name);
         if (customerSearchHit.isPresent()) {
             return ResponseEntity.ok(customerSearchHit.get());
         }

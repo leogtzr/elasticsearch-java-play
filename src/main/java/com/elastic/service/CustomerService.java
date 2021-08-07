@@ -29,7 +29,7 @@ public class CustomerService {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerService.class);
 
-    public Optional<SearchHit<Customer>> dummySearchByFirstName(final String name) {
+    public Optional<SearchHit<Customer>> searchByFirstName(final String name) {
         final QueryBuilder queryBuilder = QueryBuilders.matchQuery("firstName", name);
 
         final Query searchQuery = new NativeSearchQueryBuilder().withQuery(queryBuilder).build();
@@ -42,7 +42,7 @@ public class CustomerService {
         // customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> LOG.info(customer.toString()));
     }
 
-    public Optional<SearchHit<Customer>> dummySearchByFirstName2(final String name) {
+    public Optional<SearchHit<Customer>> searchByFirstName2(final String name) {
         final String query = """
             {
               "match": {
