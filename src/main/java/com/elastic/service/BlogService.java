@@ -24,12 +24,10 @@ public class BlogService {
     @Autowired
     private ElasticsearchOperations elasticsearchOperations;
 
-    private Logger logger = LoggerFactory.getLogger(BlogService.class);
+    private final Logger LOG = LoggerFactory.getLogger(BlogService.class);
 
     @Value("${indexBlog}")
     private String indexName;
-
-    private static final Logger LOG = LoggerFactory.getLogger(BlogService.class);
 
     public Optional<SearchHit<Blog>> searchByTitle(final String title) {
         final QueryBuilder queryBuilder = QueryBuilders.matchQuery("title", title);
@@ -41,7 +39,6 @@ public class BlogService {
         LOG.info(accountsHits.toString());
 
         return accountsHits.stream().findAny();
-        // accountsHits.stream().map(hit -> hit.getContent()).forEach(account -> LOG.info(account.toString()));
     }
 
     public Optional<SearchHit<Blog>> searchByTitle2(final String title) {

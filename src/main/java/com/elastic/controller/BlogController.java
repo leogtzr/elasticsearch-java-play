@@ -44,7 +44,7 @@ public class BlogController {
             return Optional.empty();
         }
 
-        logger.info("User found: {}", id);
+        logger.info("Blog found: {}", id);
         return byId;
     }
 
