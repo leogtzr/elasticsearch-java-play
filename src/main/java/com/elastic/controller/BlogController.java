@@ -10,7 +10,6 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +30,8 @@ public class BlogController {
         return this.blogRepository.findAll();
     }
 
-    @GetMapping("/{firstName}")
-    public List<Blog> byName(final @PathVariable String title) {
+    @GetMapping("/{title}")
+    public List<Blog> searchByTitle(final @PathVariable String title) {
         return this.blogRepository.findByTitle(title);
     }
 
@@ -50,21 +49,18 @@ public class BlogController {
     }
 
     /*
-        curl -X POST -H "Content-Type: application/json" \
-            -d '[{"firstName": "Leo", "lastName": "Gtz", "age": 89}]' http://localhost:8080
+        curl  -H "Content-Type: application/json" \
+            -d '{"title": "MyTitle1", "tags": ["t1", "t2", "t3"], "timestamp": "2016-03-16T13:56:39.492"}' \
+                http://localhost:8080/blog
      */
     @PostMapping
     public Blog createBlog(final @RequestBody Blog blog) {
-        logger.info("About to insert: {}", blog.toString());
-
-//        for (final Blog customer : blogPosts) {
-//            customer.setTimestamp(LocalDateTime.now());
-//        }
+        logger.debug("About to insert: {}", blog.toString());
 
         return this.blogRepository.save(blog);
     }
 
-    @GetMapping("/view/{name}")
+    @GetMapping("/view/{title}")
     public ResponseEntity<SearchHit<Blog>> byTitle(final @PathVariable String title) {
         final Optional<SearchHit<Blog>> customerSearchHit = this.blogService.searchByTitle(title);
         if (customerSearchHit.isPresent()) {
@@ -74,7 +70,7 @@ public class BlogController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/view2/{name}")
+    @GetMapping("/view2/{title}")
     public ResponseEntity<SearchHit<Blog>> byTitle2(final @PathVariable String title) {
         final Optional<SearchHit<Blog>> customerSearchHit = this.blogService.searchByTitle2(title);
         if (customerSearchHit.isPresent()) {

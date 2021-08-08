@@ -26,7 +26,7 @@ public class BlogService {
 
     private Logger logger = LoggerFactory.getLogger(BlogService.class);
 
-    @Value("${indexAccount}")
+    @Value("${indexBlog}")
     private String indexName;
 
     private static final Logger LOG = LoggerFactory.getLogger(BlogService.class);
