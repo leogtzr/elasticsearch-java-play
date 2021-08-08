@@ -39,14 +39,13 @@ public class CustomerService {
         LOG.info(customerHits.toString());
 
         return customerHits.stream().findAny();
-        // customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> LOG.info(customer.toString()));
     }
 
     public Optional<SearchHit<Customer>> searchByFirstName2(final String name) {
         final String query = """
             {
               "match": {
-                "firstName": {
+                "firstname": {
                   "query": "%s"
                 }
               }

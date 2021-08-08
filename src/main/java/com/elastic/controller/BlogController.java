@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 public class BlogController {
 
-    private Logger logger = LoggerFactory.getLogger(BlogController.class);
+    private final Logger LOG = LoggerFactory.getLogger(BlogController.class);
 
     @Autowired
     private BlogRepository blogRepository;
@@ -40,22 +40,22 @@ public class BlogController {
         final Optional<Blog> byId = this.blogRepository.findById(id);
 
         if (!byId.isPresent()) {
-            logger.error("Blog not found: {}", id);
+            LOG.error("Blog not found: {}", id);
             return Optional.empty();
         }
 
-        logger.info("Blog found: {}", id);
+        LOG.info("Blog found: {}", id);
         return byId;
     }
 
     /*
         curl  -H "Content-Type: application/json" \
-            -d '{"title": "MyTitle1", "tags": ["t1", "t2", "t3"], "timestamp": "2016-03-16T13:56:39.492"}' \
-                http://localhost:8080/blog
+            -d '{"title": "abc1", "tags": ["A", "B", "C"], "timestamp": "2021-08-07T19:00:01"}' \
+            http://localhost:8080/blog
      */
     @PostMapping
     public Blog createBlog(final @RequestBody Blog blog) {
-        logger.debug("About to insert: {}", blog.toString());
+        LOG.debug("About to insert: {}", blog.toString());
 
         return this.blogRepository.save(blog);
     }

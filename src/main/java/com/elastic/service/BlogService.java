@@ -26,7 +26,7 @@ public class BlogService {
 
     private final Logger LOG = LoggerFactory.getLogger(BlogService.class);
 
-    @Value("${indexBlog}")
+    @Value("${indexBlog:website}")
     private String indexName;
 
     public Optional<SearchHit<Blog>> searchByTitle(final String title) {
@@ -58,11 +58,6 @@ public class BlogService {
                 Blog.class,
                 IndexCoordinates.of(indexName));
 
-//        accountsHits.stream().map(hit -> hit.getContent()).forEach(account -> {
-//            LOG.debug("...");
-//            LOG.info(String.format("account -> '%s'", account));
-//            LOG.debug(".../>");
-//        });
         return accountsHits.stream().findAny();
     }
 

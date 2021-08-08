@@ -41,7 +41,6 @@ public class AccountService {
         LOG.info(accountsHits.toString());
 
         return accountsHits.stream().findAny();
-        // accountsHits.stream().map(hit -> hit.getContent()).forEach(account -> LOG.info(account.toString()));
     }
 
     public Optional<SearchHit<Account>> searchByFirstName2(final String name) {
@@ -61,11 +60,6 @@ public class AccountService {
                 Account.class,
                 IndexCoordinates.of(indexName));
 
-//        accountsHits.stream().map(hit -> hit.getContent()).forEach(account -> {
-//            LOG.debug("...");
-//            LOG.info(String.format("account -> '%s'", account));
-//            LOG.debug(".../>");
-//        });
         return accountsHits.stream().findAny();
     }
 

@@ -16,10 +16,10 @@ public class Blog {
     @Field(name = "title", type = FieldType.Text)
     private String title;
 
-    @Field(type = FieldType.Date, pattern = "uuuu-MM-dd'T'HH:mm:ss.SSSZZ", store = true, name = "@timestamp")
+    @Field(type = FieldType.Date, pattern = "uuuu-MM-dd'T'HH:mm:ss", store = true, name = "@timestamp")
     private Date timestamp;
 
-    @Field(type = FieldType.Nested, name = "tags")
+    @Field(type = FieldType.Text, name = "tags")
     private List<String> tags;
 
     public String getId() {
