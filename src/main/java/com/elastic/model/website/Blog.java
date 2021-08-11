@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Document(indexName = "website")
 public class Blog {
@@ -62,5 +63,25 @@ public class Blog {
                 ", timestamp=" + timestamp +
                 ", tags=" + tags +
                 '}';
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final Blog blog = (Blog) o;
+
+        return Objects.equals(id, blog.id) && Objects.equals(title, blog.title) &&
+                Objects.equals(timestamp, blog.timestamp) && Objects.equals(tags, blog.tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, timestamp, tags);
     }
 }

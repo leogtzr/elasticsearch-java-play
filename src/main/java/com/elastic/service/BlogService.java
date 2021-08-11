@@ -53,12 +53,12 @@ public class BlogService {
         final String re = String.format(query, title);
         final Query searchQuery = new StringQuery(re);
 
-        final SearchHits<Blog> accountsHits = elasticsearchOperations.search(
+        final SearchHits<Blog> blogsHits = elasticsearchOperations.search(
                 searchQuery,
                 Blog.class,
                 IndexCoordinates.of(indexName));
 
-        return accountsHits.stream().findAny();
+        return blogsHits.stream().findAny();
     }
 
 }

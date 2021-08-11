@@ -58,11 +58,6 @@ public class CustomerService {
                 Customer.class,
                 IndexCoordinates.of(indexName));
 
-//        customerHits.stream().map(hit -> hit.getContent()).forEach(customer -> {
-//            LOG.debug("...");
-//            LOG.info(String.format("customer -> '%s'", customer));
-//            LOG.debug(".../>");
-//        });
         return customerHits.stream().findAny();
     }
 
